@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled20/welcome_page.dart';
 
 class OrderConfirmationScreen extends StatefulWidget {
   @override
@@ -33,11 +34,12 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Close the dialog
-                Navigator.popUntil(
-                    context, ModalRoute.withName('/')); // Return to home
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomePage()),
+                );
               },
-              child: Text("Back to Home"),
+              child: Text('Back to home'),
             ),
           ],
         );

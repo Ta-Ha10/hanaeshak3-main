@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Women\'s Tops',
+      title: 'e-commerce',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: WelcomePage(),
     );
@@ -47,6 +47,7 @@ class _WelcomePageState extends State<WelcomePage> {
       'description':
           'A stylish blouse perfect for casual and formal occasions.',
       'price': 12.0,
+      'rating': 4.5,
     },
     {
       'imagePath': 'images/assets/image2.jpg',
@@ -54,6 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
       'category': 'T-Shirts',
       'description': 'Comfortable and casual, ideal for everyday wear.',
       'price': 10.0,
+      'rating': 4.0,
     },
     {
       'imagePath': 'images/assets/image3.jpg',
@@ -61,6 +63,7 @@ class _WelcomePageState extends State<WelcomePage> {
       'category': 'Blouses',
       'description': 'Trendy crop top for a modern look.',
       'price': 15.0,
+      'rating': 4.8,
     },
     {
       'imagePath': 'images/assets/image4.jpg',
@@ -68,6 +71,7 @@ class _WelcomePageState extends State<WelcomePage> {
       'category': 'Hoodies',
       'description': 'A cozy hoodie to keep you warm.',
       'price': 20.0,
+      'rating': 4.2,
     },
     {
       'imagePath': 'images/assets/image5.jpg',
@@ -75,6 +79,7 @@ class _WelcomePageState extends State<WelcomePage> {
       'category': 'Jackets',
       'description': 'Classic denim jacket for casual wear.',
       'price': 30.0,
+      'rating': 4.6,
     },
     {
       'imagePath': 'images/assets/image6.jpg',
@@ -82,6 +87,7 @@ class _WelcomePageState extends State<WelcomePage> {
       'category': 'Blouses',
       'description': 'A warm and comfortable sweater.',
       'price': 25.0,
+      'rating': 4.3,
     },
   ];
 
@@ -92,6 +98,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isProductSelected ? selectedProductName : "Women's Tops"),
+        backgroundColor: Colors.deepPurple,
         centerTitle: true,
         actions: [
           IconButton(
@@ -237,6 +244,18 @@ class _WelcomePageState extends State<WelcomePage> {
                   Text(
                     product['name'],
                     style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: List.generate(5, (index) {
+                      return Icon(
+                        index < (product['rating'] ?? 0).floor()
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Colors.amber,
+                        size: 16,
+                      );
+                    }),
                   ),
                   SizedBox(height: 4),
                   Text(

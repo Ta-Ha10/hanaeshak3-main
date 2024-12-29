@@ -20,6 +20,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Checkout"),
+        backgroundColor: Colors.deepPurple,
         centerTitle: true,
       ),
       body: Padding(
