@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled20/welcome_page.dart';
+
 import 'login_page.dart';
 import 'signup_page.dart';
-import 'welcome_page.dart';  // تأكد من استيراد صفحة WelcomePage
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -11,12 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/login',  // تعيين صفحة تسجيل الدخول كصفحة البداية
+      title: 'Firebase Auth Example',
+      initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
-        '/welcome': (context) => WelcomePage(),  // تأكد من أن اسم الصفحة صحيح
+        '/welcome': (context) => WelcomePage()
       },
     );
   }

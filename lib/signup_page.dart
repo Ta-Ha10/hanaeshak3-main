@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +19,7 @@ class SignUpPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -21,6 +27,7 @@ class SignUpPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextField(
+              controller: usernameController,
               decoration: InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
@@ -28,6 +35,7 @@ class SignUpPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -36,9 +44,28 @@ class SignUpPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // الانتقال إلى الصفحة الجديدة
-                Navigator.pushReplacementNamed(context, '/welcome');
+              onPressed: () async {
+                try {
+                  // Create user with Firebase Authentication
+                  final UserCredential userCredential = await FirebaseAuth
+                      .instance
+                      .createUserWithEmailAndPassword(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
+
+                  // Optionally, update the display name with the username
+                  await userCredential.user
+                      ?.updateDisplayName(usernameController.text.trim());
+
+                  // Navigate to the welcome page
+                  Navigator.pushReplacementNamed(context, '/login');
+                } catch (e) {
+                  // Display error message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: ${e.toString()}')),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple,

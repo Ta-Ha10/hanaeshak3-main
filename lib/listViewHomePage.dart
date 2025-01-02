@@ -16,7 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
     'images/assets/image4.jpg',
     'images/assets/image5.jpg',
     'images/assets/image6.jpg',
-
+  ];
 
   @override
   Widget build(BuildContext context) {
