@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'CartPage.dart';
-
-void main() {
-  runApp(MyApp());
-}
+import 'FavouritePage.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -25,7 +22,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   bool isProductSelected = false;
-  bool isGridView = true; // State for switching between GridView and ListView
+  bool isGridView = true;
   String selectedImagePath = '';
   String selectedProductName = '';
   String selectedProductDescription = '';
@@ -92,14 +89,16 @@ class _WelcomePageState extends State<WelcomePage> {
   ];
 
   final List<Map<String, dynamic>> cart = [];
+  final List<Map<String, dynamic>> favourites = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(isProductSelected ? selectedProductName : "Women's Tops"),
+        title: Center(
+            child:
+                Text(isProductSelected ? selectedProductName : "e-commerce")),
         backgroundColor: Colors.deepPurple,
-        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -116,6 +115,28 @@ class _WelcomePageState extends State<WelcomePage> {
             },
           ),
           IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavouritePage(
+                    favourites: favourites,
+                    onProductSelected: (product) {
+                      setState(() {
+                        isProductSelected = true;
+                        selectedImagePath = product['imagePath'];
+                        selectedProductName = product['name'];
+                        selectedProductDescription = product['description'];
+                        selectedProductPrice = product['price'];
+                      });
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+          IconButton(
             icon: Icon(isGridView ? Icons.list : Icons.grid_view),
             onPressed: () {
               setState(() {
@@ -127,7 +148,6 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
       body: Column(
         children: [
-          // Horizontal category list
           Container(
             height: 60,
             padding: EdgeInsets.symmetric(vertical: 8),
@@ -147,7 +167,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue : Colors.grey[200],
+                      color: isSelected ? Colors.blue : Colors.grey,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Center(
@@ -164,7 +184,6 @@ class _WelcomePageState extends State<WelcomePage> {
               },
             ),
           ),
-          // Main content
           Expanded(
             child: isProductSelected
                 ? _buildProductDetailsView()
@@ -216,6 +235,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _buildProductCard(Map<String, dynamic> product) {
+    final isFavourite = favourites.contains(product);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -230,11 +250,34 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              product['imagePath'],
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            Stack(
+              children: [
+                Image.asset(
+                  product['imagePath'],
+                  height: 120,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: IconButton(
+                    icon: Icon(
+                      isFavourite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavourite ? Colors.red : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (isFavourite) {
+                          favourites.remove(product);
+                        } else {
+                          favourites.add(product);
+                        }
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -252,7 +295,6 @@ class _WelcomePageState extends State<WelcomePage> {
                         index < (product['rating'] ?? 0).floor()
                             ? Icons.star
                             : Icons.star_border,
-                        color: Colors.amber,
                         size: 16,
                       );
                     }),

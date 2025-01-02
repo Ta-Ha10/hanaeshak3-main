@@ -16,26 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
     'images/assets/image4.jpg',
     'images/assets/image5.jpg',
     'images/assets/image6.jpg',
-    'images/assets/image7.jpg',
-    'images/assets/image8.jpg',
-    'images/assets/image9.jpg',
-    'images/assets/image10.jpg',
-    'images/assets/image12.jpg',
-    'images/assets/image13.jpg',
-    'images/assets/image14.jpg',
-    'images/assets/image15.jpg',
-    'images/assets/image16.jpg',
-    'images/assets/image17.jpg',
-    'images/assets/image18.jpg',
-    'images/assets/image19.jpg',
-    'images/assets/image20.jpg',
-    'images/assets/image21.jpg',
-    'images/assets/image23.jpg',
-    'images/assets/image14.jpg',
-    'images/assets/image25.jpg',
-    'images/assets/image26.jpg',
-    'images/assets/image27.jpg',
-  ];
+
 
   @override
   Widget build(BuildContext context) {
